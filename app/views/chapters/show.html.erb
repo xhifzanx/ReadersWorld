@@ -1,0 +1,111 @@
+
+<!-- Responsive navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#!">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Page content-->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Post content-->
+            <article>
+                <!-- Post header-->
+                <header class="mb-4">
+                    <!-- Post title-->
+                    <h1 class="fw-bolder mb-1"><%= @chapter.manga.title %></h1>
+                    <h2 class="fw-bolder mb-1"><%= @chapter.title %></h2>
+                    <!-- Post meta content-->
+                    <div class="text-muted fst-italic mb-2">Posted on January 1, 2022 by Start Bootstrap</div>
+                    <!-- Post categories-->
+                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
+                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                </header>
+                <!-- Preview image figure-->
+                
+                <% if @chapter.images.present? %>
+                <% @chapter.images.each do |img|%>
+                <figure class="mb-4">
+                    <%= image_tag img , width: "900px", height: "1200px", class:"img-fluid rounded"%>
+                </figure>
+                <% end %>
+                <% else %>
+                    <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x1200/ced4da/6c757d.jpg" alt="..." /></figure>
+                <% end %>
+                <!-- Post content-->
+                <section class="mb-5">
+                    
+                </section>
+            </article>
+            <!-- Comments section-->
+            <section class="mb-5">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <!-- Comment form-->
+                        <%#= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter], html:{class:"mb-4"} do |f| %>
+                        <%= form_for @reply_chapter_path, path: manga_chapter_comment_chapter_reply_chapter_path(@reply_chapter.chapter.manga.id, @reply_chapter.chapter, @reply_chapter), html:{class:"mb-4"} do |f| %>
+                          <%= f.rich_text_area :message, class:"form-control", placeholder:"Join the discussion and leave a comment!"%><br>
+                          <%= f.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
+                        <% end %>
+                        <!-- Comment with nested comments-->
+                        <% @chapter.comment_chapters.each do |comment| %>
+                            <div class="d-flex mb-4 me">
+                            <!-- Parent comment-->
+                                <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                               
+                                  <div class="fw-bold">
+                                      <div class="card" style="min-width: 35em">
+                                        <div class="card-body">
+                                           <div class="ms-3">
+                                            <%= comment.user.email if comment.user.present? %>
+                                          </div>
+                                          <%= raw comment.message %>
+                                            <span class="badge badge-primary float-right">Reply</span>
+                                            <%= form_for [@reply_chapter.comment_chapter.chapter.manga, @reply_chapter.comment_chapter.chapter, @reply_chapter.comment_chapter, @reply_chapter] do |ff| %>
+                                              <%= ff.rich_text_area :reply_message, class:"form-control"%><br>
+                                              <%= ff.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
+                                            <% end %>
+                                      </div>
+                                    </div>
+                                          
+                                    <!-- Child comment 1-->
+                                    <% comment.reply_chapters.each do |reply| %>
+                                        <div class="d-flex mt-4">
+                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                            <div class="ms-3">
+                                                <div class="fw-bold"><%= reply.user.username %></div>
+                                                <%= reply.reply_message %>
+                                            </div>
+                                        </div>
+                                    <% end %>
+                                </div>
+                            </div>
+                        <% end %>
+                        <!-- Single comment-->
+                        
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- Side widgets-->
+       
+    </div>
+</div>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+
