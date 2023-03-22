@@ -8,9 +8,9 @@
 
 
 
-User.create(username:'admin', email:'admin@example.com', password:'admin_password123', status:'admin')
+User.create(username:'admin', email:'admin@example.com', password:'admin_password123', status:0)
 puts 'create admin user'
-User.create(username:'user_one', email:'user_1@example.com', password:'user_password123', status:'user')
+User.create(username:'user_one', email:'user_1@example.com', password:'user_password123', status:2)
 puts 'create user'
 
 category1 = Category.create(name:'manhwa')

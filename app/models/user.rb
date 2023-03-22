@@ -8,4 +8,10 @@ class User < ApplicationRecord
   has_many :replies
   has_many :comment_chapters
   has_many :reply_chapters
+
+  enum status: {
+		admin: 0,
+		seller: 1,
+		user: 2
+	}
 end
