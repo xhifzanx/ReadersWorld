@@ -52,53 +52,58 @@
                 <div class="card bg-light">
                     <div class="card-body">
                         <!-- Comment form-->
-                        <%#= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter], html:{class:"mb-4"} do |f| %>
-                        <%= form_for @reply_chapter_path, path: manga_chapter_comment_chapter_reply_chapter_path(@reply_chapter.chapter.manga.id, @reply_chapter.chapter, @reply_chapter), html:{class:"mb-4"} do |f| %>
+                    <% if current_user.present? %>
+                        <%= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter], html:{class:"mb-4"} do |f| %>
+                        <%#= form_for @reply_chapter_path, path: manga_chapter_comment_chapter_reply_chapter_path(@reply_chapter.chapter.manga.id, @reply_chapter.chapter, @reply_chapter), html:{class:"mb-4"} do |f| %>
                           <%= f.rich_text_area :message, class:"form-control", placeholder:"Join the discussion and leave a comment!"%><br>
                           <%= f.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
                         <% end %>
                         <!-- Comment with nested comments-->
                         <% @chapter.comment_chapters.each do |comment| %>
-                            <div class="d-flex mb-4 me">
-                            <!-- Parent comment-->
-                                <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                               
-                                  <div class="fw-bold">
-                                      <div class="card" style="min-width: 35em">
-                                        <div class="card-body">
-                                           <div class="ms-3">
-                                            <%= comment.user.email if comment.user.present? %>
+                            <% if comment.persisted? %>
+                                <div class="d-flex mb-4 me">
+                                <!-- Parent comment-->
+                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                   
+                                      <div class="fw-bold">
+                                          <div class="card" style="min-width: 35em">
+                                            <div class="card-body">
+                                               <div class="ms-3">
+                                                <%= comment.user.email %>
+                                              </div>
+                                              <%= raw comment.message %>
+                                                <span class="badge badge-primary float-right">Reply</span>
+                                                <%#= form_for [@reply_chapter.comment_chapter.chapter.manga, @reply_chapter.comment_chapter.chapter, @reply_chapter.comment_chapter, @reply_chapter] do |ff| %>
+                                                  <%#= ff.rich_text_area :reply_message, class:"form-control"%><br>
+                                                  <%#= ff.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
+                                                <%# end %>
                                           </div>
-                                          <%= raw comment.message %>
-                                            <span class="badge badge-primary float-right">Reply</span>
-                                            <%= form_for [@reply_chapter.comment_chapter.chapter.manga, @reply_chapter.comment_chapter.chapter, @reply_chapter.comment_chapter, @reply_chapter] do |ff| %>
-                                              <%= ff.rich_text_area :reply_message, class:"form-control"%><br>
-                                              <%= ff.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
-                                            <% end %>
-                                      </div>
-                                    </div>
-                                          
-                                    <!-- Child comment 1-->
-                                    <% comment.reply_chapters.each do |reply| %>
-                                        <div class="d-flex mt-4">
-                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                            <div class="ms-3">
-                                                <div class="fw-bold"><%= reply.user.username %></div>
-                                                <%= reply.reply_message %>
-                                            </div>
                                         </div>
-                                    <% end %>
+                                              
+                                        <!-- Child comment 1-->
+                                        <% comment.reply_chapters.each do |reply| %>
+                                            <% if reply.persisted? %>
+                                                <div class="d-flex mt-4">
+                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                                    <div class="ms-3">
+                                                        <div class="fw-bold"><%= reply.user.username %></div>
+                                                        <%= reply.reply_message %>
+                                                    </div>
+                                                </div>
+                                            <% end %>
+                                        <% end %>
+                                    </div>
                                 </div>
-                            </div>
+                            <% end %>
                         <% end %>
                         <!-- Single comment-->
-                        
+                    <% else %>
+                        <%= link_to 'Sign In to input or see comments', new_user_session_path, class:'btn btn-primary btn-block' %>
+                    <% end %>
                     </div>
                 </div>
             </section>
         </div>
-        <!-- Side widgets-->
-       
     </div>
 </div>
 <!-- Footer-->
