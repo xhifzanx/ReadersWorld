@@ -131,6 +131,7 @@ CREATE TABLE `comments` (
   `manga_id` bigint NOT NULL,
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
+  `parent_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_comments_on_user_id` (`user_id`),
   KEY `index_comments_on_manga_id` (`manga_id`),
@@ -226,6 +227,7 @@ CREATE TABLE `users` (
   `updated_at` datetime(6) NOT NULL,
   `username` varchar(255) DEFAULT NULL,
   `number_of_bookmarks` int DEFAULT NULL,
+  `status` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_users_on_email` (`email`),
   UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`)
@@ -261,6 +263,8 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20230310122558'),
 ('20230310122636'),
 ('20230310123253'),
-('20230321080126');
+('20230321080126'),
+('20230321094053'),
+('20230321103053');
 
 
