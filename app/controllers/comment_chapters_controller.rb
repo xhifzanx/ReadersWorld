@@ -10,7 +10,7 @@ class CommentChaptersController < ApplicationController
 	end
 	private
 	def comment_chapter_param
-		params.require(:comment_chapter).permit(:message, :user_id)
+		params.require(:comment_chapter).permit(:message, :user_id, :parent_id)
 	end
 	def set_chapter
 		@chapter = Chapter.find(params[:chapter_id])

@@ -56,42 +56,59 @@
                         <%= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter], html:{class:"mb-4"} do |f| %>
                         <%#= form_for @reply_chapter_path, path: manga_chapter_comment_chapter_reply_chapter_path(@reply_chapter.chapter.manga.id, @reply_chapter.chapter, @reply_chapter), html:{class:"mb-4"} do |f| %>
                           <%= f.rich_text_area :message, class:"form-control", placeholder:"Join the discussion and leave a comment!"%><br>
-                          <%= f.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
+                          <%= f.submit 'POST', class: 'btn btn-primary btn-sm float-right' %><br>
                         <% end %>
                         <!-- Comment with nested comments-->
                         <% @chapter.comment_chapters.each do |comment| %>
                             <% if comment.persisted? %>
                                 <div class="d-flex mb-4 me">
                                 <!-- Parent comment-->
+                                <% if comment.parent_id == nil %>
                                     <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                   
+                                <% end %>
                                       <div class="fw-bold">
-                                          <div class="card" style="min-width: 35em">
+                                        <% if comment.parent_id == nil %>
+                                          <div class="card" style="min-width: 40em;max-width: 40em;">
                                             <div class="card-body">
                                                <div class="ms-3">
                                                 <%= comment.user.email %>
                                               </div>
                                               <%= raw comment.message %>
                                                 <span class="badge badge-primary float-right">Reply</span>
-                                                <%#= form_for [@reply_chapter.comment_chapter.chapter.manga, @reply_chapter.comment_chapter.chapter, @reply_chapter.comment_chapter, @reply_chapter] do |ff| %>
-                                                  <%#= ff.rich_text_area :reply_message, class:"form-control"%><br>
-                                                  <%#= ff.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
-                                                <%# end %>
+                                                <br>
+                                                <%= form_for @comment_chapter, url: manga_chapter_comment_chapters_path(@chapter.manga, @chapter) do |ff|%>
+                                                  <%= ff.rich_text_area :message, class:"form-control"%><br>
+                                                  <%= ff.hidden_field :parent_id, value: comment.id %>
+                                                  <%= ff.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
+                                                <% end %>
+                                            </div>
                                           </div>
-                                        </div>
+                                        <% end %>
                                               
                                         <!-- Child comment 1-->
-                                        <% comment.reply_chapters.each do |reply| %>
-                                            <% if reply.persisted? %>
+                                        <%# comment.reply_chapters.each do |reply| %>
+                                            <%# if reply.persisted? %>
+                                                <!-- <div class="d-flex mt-4">
+                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                                    <div class="ms-3">
+                                                        <div class="fw-bold"><%#= reply.user.username %></div>
+                                                        <%#= reply.reply_message %>
+                                                    </div>
+                                                </div> -->
+                                            <%# end %>
+                                        <%# end %>
+
+                                        <%# comment.reply_chapters.each do |reply| %>
+                                            <%# if reply.persisted? %>
                                                 <div class="d-flex mt-4">
                                                     <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                                                     <div class="ms-3">
-                                                        <div class="fw-bold"><%= reply.user.username %></div>
-                                                        <%= reply.reply_message %>
+                                                        <div class="fw-bold"><%= comment.user.username if comment.parent_id.present? %></div>
+                                                        <%= comment.message if comment.parent_id.present? %>
                                                     </div>
                                                 </div>
-                                            <% end %>
-                                        <% end %>
+                                            <%# end %>
+                                        <%# end %>
                                     </div>
                                 </div>
                             <% end %>

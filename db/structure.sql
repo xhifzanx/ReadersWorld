@@ -114,6 +114,7 @@ CREATE TABLE `comment_chapters` (
   `user_id` bigint NOT NULL,
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
+  `parent_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_comment_chapters_on_chapter_id` (`chapter_id`),
   KEY `index_comment_chapters_on_user_id` (`user_id`),
@@ -265,6 +266,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20230310123253'),
 ('20230321080126'),
 ('20230321094053'),
-('20230321103053');
+('20230321103053'),
+('20230322110622');
 
 
