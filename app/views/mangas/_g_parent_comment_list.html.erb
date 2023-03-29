@@ -1,0 +1,26 @@
+<li id="g_parent_comment_chapter_id_<%= comment.id %>">
+ 	<div class="d-flex mb-4 me">
+    <!-- Parent comment-->
+	<div class="flex-shrink-0">
+		<img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
+	</div>
+	  <div class="fw-bold">
+		  <div class="card" style="min-width: 40em;max-width: 40em;">
+		    <div class="card-body">
+		    	<div class="ms-3">
+            <%= comment.user.email %>
+					</div>
+          <%= raw comment.message %>
+          <button class="badge badge-primary float-right" id="rep_button">Reply</button><br>
+          <div id="grand_form">
+            <%= form_for [@comment.manga, @comment] do |ff|%>
+              <%= ff.rich_text_area :message, class:"form-control"%><br>
+              <%= ff.hidden_field :parent_id, value: comment.id %>
+              <%= ff.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>

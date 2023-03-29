@@ -12,6 +12,8 @@ class MangasController < ApplicationController
 	end
 	def show
 		@bookmark_status = is_present(@manga.users, current_user) ? 'Bookmark' : 'Unbookmark'
+		@comment = @manga.comments.build
+		
 	end
 	def edit; end
 	def update

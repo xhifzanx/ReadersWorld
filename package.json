@@ -15,6 +15,7 @@
     "file-upload-with-preview": "^5.0.8",
     "jquery": "^3.6.3",
     "popper.js": "^1.16.1",
+    "rails-ujs": "^5.2.8-1",
     "stimulus": "^3.2.1",
     "trix": "^1.2.0",
     "turbolinks": "^5.2.0",

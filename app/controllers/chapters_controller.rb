@@ -27,8 +27,6 @@ class ChaptersController < ApplicationController
 	def show
 		@chapter.update(is_seen: true)
 		@comment_chapter = @chapter.comment_chapters.build
-		@reply_chapter = @chapter.comment_chapters.each { |comment_chapter| comment_chapter.reply_chapters.build}
-		
 	end
 
 	def edit

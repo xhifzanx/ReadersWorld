@@ -62,15 +62,10 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
-    autoprefixer-rails (10.4.13.0)
-      execjs (~> 2)
     bcrypt (3.1.18)
     bindex (0.8.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
-    bootstrap-sass (3.3.6)
-      autoprefixer-rails (>= 5.2.1)
-      sass (>= 3.3.4)
     builder (3.2.4)
     byebug (11.1.3)
     capybara (3.38.0)
@@ -83,7 +78,6 @@ GEM
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
     concurrent-ruby (1.2.2)
-    content_disposition (1.0.0)
     crass (1.0.6)
     date (3.3.3)
     devise (4.8.1)
@@ -96,10 +90,7 @@ GEM
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
       railties (>= 3.2)
-    down (5.4.0)
-      addressable (~> 2.8)
     erubi (1.12.0)
-    execjs (2.8.1)
     ffi (1.15.5)
     globalid (1.1.0)
       activesupport (>= 5.0)
@@ -108,10 +99,6 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    jquery-rails (4.5.1)
-      rails-dom-testing (>= 1, < 3)
-      railties (>= 4.2.0)
-      thor (>= 0.14, < 2.0)
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -190,11 +177,6 @@ GEM
       railties (>= 5.0)
     rexml (3.2.5)
     rubyzip (2.3.2)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -210,10 +192,6 @@ GEM
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
     semantic_range (3.0.0)
-    shrine (3.4.0)
-      content_disposition (~> 1.0)
-      down (~> 5.1)
-    sorbet-runtime (0.5.10705)
     spring (4.1.1)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
@@ -222,7 +200,6 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.6.0-x86_64-linux)
     thor (1.2.1)
     tilt (2.0.11)
     timeout (0.3.1)
@@ -251,8 +228,6 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    workos (2.11.0)
-      sorbet-runtime (~> 0.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.6.7)
@@ -263,13 +238,11 @@ PLATFORMS
 DEPENDENCIES
   actiontext
   bootsnap (>= 1.4.4)
-  bootstrap-sass (= 3.3.6)
   byebug
   capybara (>= 3.26)
   devise
   dotenv-rails
   jbuilder (~> 2.7)
-  jquery-rails
   listen (~> 3.3)
   mysql2
   puma (~> 5.0)
@@ -277,15 +250,12 @@ DEPENDENCIES
   rails (~> 6.1.7)
   sass-rails (>= 6)
   selenium-webdriver (>= 4.0.0.rc1)
-  shrine (~> 3.4)
   spring
-  sqlite3 (~> 1.4)
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 4.1.0)
   webdrivers
   webpacker (~> 5.0)
-  workos
 
 RUBY VERSION
    ruby 3.0.0p0

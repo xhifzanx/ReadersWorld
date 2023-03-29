@@ -53,62 +53,80 @@
                     <div class="card-body">
                         <!-- Comment form-->
                     <% if current_user.present? %>
-                        <%= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter], html:{class:"mb-4"} do |f| %>
-                        <%#= form_for @reply_chapter_path, path: manga_chapter_comment_chapter_reply_chapter_path(@reply_chapter.chapter.manga.id, @reply_chapter.chapter, @reply_chapter), html:{class:"mb-4"} do |f| %>
+                        <%= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter], remote: true do |f| %>
+                        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
                           <%= f.rich_text_area :message, class:"form-control", placeholder:"Join the discussion and leave a comment!"%><br>
                           <%= f.submit 'POST', class: 'btn btn-primary btn-sm float-right' %><br>
                         <% end %>
                         <!-- Comment with nested comments-->
-                        <% @chapter.comment_chapters.each do |comment| %>
+                        <% @chapter.comment_chapters.where(parent_id:nil).each do |comment| %>
                             <% if comment.persisted? %>
                                 <div class="d-flex mb-4 me">
                                 <!-- Parent comment-->
-                                <% if comment.parent_id == nil %>
                                     <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                <% end %>
-                                      <div class="fw-bold">
-                                        <% if comment.parent_id == nil %>
+                                      <div class="fw-bold"> 
                                           <div class="card" style="min-width: 40em;max-width: 40em;">
                                             <div class="card-body">
                                                <div class="ms-3">
                                                 <%= comment.user.email %>
                                               </div>
                                               <%= raw comment.message %>
-                                                <span class="badge badge-primary float-right">Reply</span>
+                                                <button class="badge badge-primary float-right" id="rep_button">Reply</button>
                                                 <br>
-                                                <%= form_for @comment_chapter, url: manga_chapter_comment_chapters_path(@chapter.manga, @chapter) do |ff|%>
+                                              <div id="grand_form">
+                                                <%= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter] do |ff|%>
                                                   <%= ff.rich_text_area :message, class:"form-control"%><br>
                                                   <%= ff.hidden_field :parent_id, value: comment.id %>
                                                   <%= ff.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
                                                 <% end %>
+                                              </div>
                                             </div>
                                           </div>
-                                        <% end %>
-                                              
                                         <!-- Child comment 1-->
-                                        <%# comment.reply_chapters.each do |reply| %>
-                                            <%# if reply.persisted? %>
-                                                <!-- <div class="d-flex mt-4">
-                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                                    <div class="ms-3">
-                                                        <div class="fw-bold"><%#= reply.user.username %></div>
-                                                        <%#= reply.reply_message %>
-                                                    </div>
-                                                </div> -->
-                                            <%# end %>
-                                        <%# end %>
-
-                                        <%# comment.reply_chapters.each do |reply| %>
-                                            <%# if reply.persisted? %>
+      
+                                        <% @chapter.comment_chapters.where(parent_id:comment.id, sub_parent_id:nil).each do |reply| %>
+                                            <% if reply.persisted? %>
                                                 <div class="d-flex mt-4">
                                                     <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                                    <div class="ms-3">
-                                                        <div class="fw-bold"><%= comment.user.username if comment.parent_id.present? %></div>
-                                                        <%= comment.message if comment.parent_id.present? %>
+                                                    <div class="card" style="min-width: 36.7em;max-width: 36.7em;">
+                                                    <div class="card-body">
+                                                       <div class="ms-3">
+                                                        <div class="fw-bold"><%= reply.user.username %></div>
+                                                        <%= reply.message  %>
+                                                        <button class="badge badge-primary float-right" id="rep_button2">Reply</button>
+                                                        <br>
+                                                      <div id="parent_form">
+                                                        <%= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter] do |fff|%>
+                                                          <%= fff.rich_text_area :message, class:"form-control"%><br>
+                                                          <%= fff.hidden_field :parent_id, value: comment.id %>
+                                                          <%= fff.hidden_field :sub_parent_id, value: reply.id %>
+                                                          <%= fff.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
+                                                        <% end %>
+                                                      </div>
                                                     </div>
+                                                  </div>
                                                 </div>
-                                            <%# end %>
-                                        <%# end %>
+                                                </div>
+                                              <!-- Grandchild comment -->
+                                              <% @chapter.comment_chapters.where(parent_id: comment.id, sub_parent_id: reply.id).each do |rreply| %>
+                                                <% if rreply.persisted? %>
+                                                  <div class="d-flex mt-4" style="margin-left: 7%">
+                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                                    <div class="card" style="min-width: 33.8em;max-width: 33.8em;">
+                                                    <div class="card-body">
+                                                       <div class="ms-3">
+                                                        <div class="fw-bold"><%= rreply.user.username %></div>
+                                                        <%= rreply.message  %>
+                                                        <br>
+                                                       </div>
+                                                    </div>
+                                                    </div>
+                                                  </div>
+                                                <% end %>
+                                              <% end %>
+                                            <% end %>
+                                        <% end %>
+
                                     </div>
                                 </div>
                             <% end %>
@@ -130,4 +148,26 @@
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+  $('#grand_form').hide()
+  $("#parent_form").hide()
+  $("#rep_button").click(function(){
+    if ($("#grand_form").is(":visible")) {
+      $('#grand_form').hide()
+    }
+    else {
+      $('#grand_form').show()
+    }
+  })
 
+  $("#rep_button2").click(function(){
+    if ($("#parent_form").is(":visible")) {
+      $("#parent_form").hide()
+    }
+    else{
+      $("#parent_form").show()
+    }
+  })
+
+</script>
