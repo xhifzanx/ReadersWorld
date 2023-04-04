@@ -22,10 +22,10 @@
 
   <section class="jumbotron text-center">
     <div class="container">
-        <% Category.all.each do |category|%>
-      <%= link_to category.name, categorized_mangas_path(category), class:'btn btn-success', style:'margin-bottom:5px'%>
+    <% Category.all.each do |category|%>
+      <%= link_to category.name, categorized_mangas_path(category.name), class:'btn btn-success', style:'margin-bottom:5px'%>
    
-  <% end %>
+    <% end %>
 
     </div>
   </section>
