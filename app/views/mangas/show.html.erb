@@ -1,5 +1,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <%= render 'show_css' %>
+        <!-- Responsive navbar-->
+        
         <!-- Page content-->
         <div class="container mt-5">
             <div class="row">
@@ -14,7 +16,10 @@
                             <div class="text-muted fst-italic mb-2">Posted on January 1, 2022 by Start Bootstrap</div>
                             <!-- Post categories-->
                             <% @manga.categories.each do |category| %>
-                            <a class="badge bg-secondary text-decoration-none link-light" href="#!"><%= category %></a>
+                              <% next if category.length < 1 %>
+                              <a class="badge bg-secondary text-decoration-none link-light" href="<%= categorized_mangas_path(category) %>">
+                                          <%= category %>
+                              </a>
                             <% end %>
                         </header>
                        
@@ -181,8 +186,12 @@
                         <div class="card-header">Search</div>
                         <div class="card-body">
                             <div class="input-group">
-                                <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
-                                <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                              <%= form_tag search_mangas_path, method: :get do %>
+                                <%= text_field_tag :q, params[:q], placeholder: "Search", class:"form-control", placeholder:"Enter search term...", :"aria-label"=>"Enter search term...", :"aria-describedby"=>"button-search", style:'display:inline;'%>
+                                <br>
+                                <br>
+                                 <%= submit_tag "Go!",class:"btn btn-primary", style:'display:inline;', id:"button-search" %>
+                              <% end %>
                             </div>
                         </div>
                     </div>
@@ -192,7 +201,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <% @manga.categories.each do |category|%>
-                                <%=next if category.length < 1 %>
+                                <% next if category.length < 1 %>
                                 <div class="col-sm-6">
                                     <ul class="list-unstyled mb-0">
                                         <li><%= link_to categorized_mangas_path(category) do%><%= category %><%end%></li>
@@ -220,7 +229,9 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
+
+        
     </body>
 </html>
 

@@ -7,8 +7,8 @@ class MangasController < ApplicationController
 		@manga = Manga.new
 	end
 	def create
-		Manga.create(manga_param)
-		redirect_to mangas_path
+		@manga = Manga.create(manga_param)
+		redirect_to new_manga_chapter_path(@manga)
 	end
 	def show
 		@bookmark_status = is_present(@manga.users, current_user) ? 'Bookmark' : 'Unbookmark'
@@ -58,6 +58,10 @@ class MangasController < ApplicationController
 		else
 			redirect_to sorted_mangas_path(@sorted)
 		end
+	end
+
+	def search
+	  @mangas = Manga.where("title LIKE ?", "%#{params[:q]}%")
 	end
 
 	private

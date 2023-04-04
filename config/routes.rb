@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'dashboards/index'
   root to: 'mangas#index'
   devise_for :users
 
@@ -18,11 +19,12 @@ Rails.application.routes.draw do
   	collection do
   		get 'bookmark/:id/action' => 'mangas#bookmark_action', as: :bookmark
   		get 'categorized/:type'   => 'mangas#categorized', 	   as: :categorized
-  		get 'sorted/:sort'        => 'mangas#sorted', 		   as: :sorted
+  		get 'sorted/:sort'        => 'mangas#sorted', 		     as: :sorted
+      get 'search'              => 'mangas#search',          as: :search
   		
   	end
   end
-
+  resources :dashboards
   resources :categories
 
 end

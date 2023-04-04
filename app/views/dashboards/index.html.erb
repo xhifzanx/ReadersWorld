@@ -64,29 +64,30 @@
   <div class="album py-5 bg-light">
     <div class="container">
       <div class="row">
-    <% @mangas.each_slice(2) do |mangas| %>
+    <% Manga.all.each_slice(2) do |mangas| %>
       <% mangas.each do |manga| %>
+          <% next if manga.users.where(email: current_user.email).blank? %>
           <div class="col-md-6">
             <%= link_to manga_path(manga) do %>
             <div class="card-body">
               <div class="card mb-4 shadow-sm">
                 <div class="row">
-              <div class="col-md-4">
-                <% if manga.thumbnail.present? %>
-                  <%= image_tag manga.thumbnail, width:"100px", height: "150px" %>
-                <% end %>
-              </div>
-                <div class="col-md-8">
-                  <br>
-                  <p class="card-text"><%= manga.title %></p>
-                  <% if manga.chapters.count >= 1 %>
-                  <p class="card-text">
-                      <%= link_to manga.chapters.last.title, manga_chapter_path(manga, manga.chapters.last) %>
-                    </p>
-                  <p class="card-text"><%= manga.chapters.last.updated_at %></p>
-                  <% end %>
+                  <div class="col-md-4">
+                    <% if manga.thumbnail.present? %>
+                      <%= image_tag manga.thumbnail, width:"100px" %>
+                    <% end %>
+                  </div>
+                  <div class="col-md-8">
+                    <br>
+                    <p class="card-text"><%= manga.title %></p>
+                    <% if manga.chapters.count >= 1 %>
+                    <p class="card-text">
+                        <%= link_to manga.chapters.last.title, manga_chapter_path(manga, manga.chapters.last) %>
+                      </p>
+                    <p class="card-text"><%= manga.chapters.last.updated_at %></p>
+                    <% end %>
+                  </div>
                 </div>
-              </div>
               </div>
             </div>
             <% end %>
@@ -105,4 +106,3 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
       <script>window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-0
