@@ -21,7 +21,7 @@ class CommentsController < ApplicationController
 	end
 	private
 	def comment_param
-		params.require(:comment).permit(:message, :user_id)
+		params.require(:comment).permit(:message, :user_id, :parent_id, :sub_parent_id)
 	end
 	def set_manga
 		@manga = Manga.find(params[:manga_id])

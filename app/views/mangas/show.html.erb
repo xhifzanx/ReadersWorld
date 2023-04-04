@@ -1,19 +1,5 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <%= render 'show_css' %>
-        <!-- Responsive navbar-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#!">Start Bootstrap</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
         <!-- Page content-->
         <div class="container mt-5">
             <div class="row">
@@ -90,16 +76,18 @@
               <section class="mb-5">
                 <div class="card bg-light">
                     <div class="card-body">
+                    <ul id="comment_g_parent">
                         <!-- Comment form-->
                     <% if current_user.present? %>
                         <%= form_for [@comment.manga, @comment], remote: true do |f| %>
                           <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
                           <%= f.text_area :message, class:"form-control", id:'comment-input', placeholder:"Join the discussion and leave a comment!"%><br>
-                          <%= f.submit 'POST', class: 'btn btn-primary btn-sm float-right', id:'g_parent_comment_btn' %><br>
+                          <%= f.submit 'POST', class: 'btn btn-primary btn-sm float-right', id:'' %><br>
                         <% end %>
                         <!-- Comment with nested comments-->
                         <% @manga.comments.where(parent_id:nil, sub_parent_id: nil).each do |comment| %>
-                            <% if comment.persisted? %>
+                            <% next unless comment.persisted? %>
+                              <li>
                                 <div class="d-flex mb-4 me">
                                 <!-- Parent comment-->
                                     <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
@@ -113,8 +101,9 @@
                                                 <button class="badge badge-primary float-right" id="rep_button_<%= comment.id %>">Reply</button>
                                                 <br>
                                               <div id="grand_form_<%= comment.id %>">
-                                                <%= form_for [@comment.manga, @comment] do |ff|%>
-                                                  <%= ff.rich_text_area :message, id:'comment-input0', class:"form-control"%><br>
+                                                <%= form_for [@comment.manga, @comment], remote: true do |ff|%>
+                                                <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                                                  <%= ff.text_area :message, id:'comment-input0', class:"form-control"%><br>
                                                   <%= ff.hidden_field :parent_id, value: comment.id %>
                                                   <%= ff.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
                                                 <% end %>
@@ -122,9 +111,10 @@
                                             </div>
                                           </div>
                                         <!-- Child comment 1-->
-      
+                                        <ul id="comment_parent_<%= comment.id %>" >
                                         <% @manga.comments.where(parent_id:comment.id, sub_parent_id:nil).each do |reply| %>
-                                            <% if reply.persisted? %>
+                                            <% next unless reply.persisted? %>
+                                              <li>
                                                 <div class="d-flex mt-4">
                                                     <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                                                     <div class="card" style="min-width: 36.7em;max-width: 36.7em;">
@@ -135,8 +125,9 @@
                                                         <button class="badge badge-primary float-right" id="rep_button2_<%= reply.id %>">Reply</button>
                                                         <br>
                                                       <div id="parent_form_<%= reply.id %>">
-                                                        <%= form_for [@comment.manga, @comment] do |fff|%>
-                                                          <%= fff.rich_text_area :message, class:"form-control"%><br>
+                                                        <%= form_for [@comment.manga, @comment], remote: true do |fff|%>
+                                                          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                                                          <%= fff.text_area :message, class:"form-control"%><br>
                                                           <%= fff.hidden_field :parent_id, value: comment.id %>
                                                           <%= fff.hidden_field :sub_parent_id, value: reply.id %>
                                                           <%= fff.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
@@ -146,9 +137,12 @@
                                                   </div>
                                                 </div>
                                                 </div>
+                                              </li>
                                               <!-- Grandchild comment -->
-                                              <% @manga.comment.where(parent_id: comment.id, sub_parent_id: reply.id).each do |rreply| %>
-                                                <% if rreply.persisted? %>
+                                            <ul id="comment_<%= reply.id %>">
+                                              <% @manga.comments.where(parent_id: comment.id, sub_parent_id: reply.id).each do |rreply| %>
+                                                <% next unless rreply.persisted? %>
+                                                <li>
                                                   <div class="d-flex mt-4" style="margin-left: 7%">
                                                     <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                                                     <div class="card" style="min-width: 33.8em;max-width: 33.8em;">
@@ -161,20 +155,22 @@
                                                     </div>
                                                     </div>
                                                   </div>
+                                                </li>
                                                 <% end %>
-                                              <% end %>
-                                            <% end %>
+                                            </ul>
                                         <% end %>
-
+                                      </ul>
                                     </div>
                                 </div>
-                            <% end %>
+                              </li>
+                          
                         <% end %>
                         <!-- Single comment-->
                     <% else %>
                         <%= link_to 'Sign In to input or see comments', new_user_session_path, class:'btn btn-primary btn-block' %>
                     <% end %>
-                    </div>
+                    </ul>
+                  </div>
                 </div>
             </section>
                 </div>
@@ -224,110 +220,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
-        </footer>'Login' new_user_session
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        </div>        
     </body>
 </html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script>
-  // $("#g_parent_comment_btn").on('click',function(){
-  //   event.preventDefault();
-  //   console.log($("#comment-input")['0']['value'])
-  //   var commentText = $("#comment-input")['0']['value']
-  //   var newComment = { comment: { text: commentText } };
-    
 
-  //   $.ajax({
-  //     type:'POST',
-  //     url: "<%=manga_comments_path(@manga) %>",
-  //     method: $(this).attr('create'),
-  //     data: $(this).serialize(),
-  //     dataType: 'script',
-  //     success: function(response) {
-  //       console.log('Comment created successfully!');
-  //     },
-  //     error: function(response) {
-  //       console.error('Error creating comment:', response);
-  //     }
-  //   });
-
-  $(document).on('submit', '#g_parent_comment_btn', function(event) {
-  event.preventDefault();
-  var formData = $(this).serialize();
-  var url = $(this).attr('create');
-  $.ajax({
-    url: url,
-    type: 'POST',
-    data: formData,
-    dataType: 'script',
-    success: function(response) {
-      // Update the page with the response
-      alert("working")
-    },
-    error: function(xhr, status, error) {
-      // Handle the error
-    }
-  });
-});
-
-
-//     var request = new XMLHttpRequest();
-//     request.open('POST', '/comments');
-//     request.setRequestHeader('Content-Type', 'application/json');
-
-//      request.onload = function() {
-//     if (request.status === 200) {
-//       // If the request is successful, get the comment data from the response
-//       var comment = JSON.parse(request.responseText);
-
-//       // Create a new comment element
-//       var newComment = document.createElement('li');
-//       newComment.innerText = comment.text;
-
-//       // Append the new comment to the list
-//       commentsList.appendChild(newComment);
-
-//       // Clear the comment input field
-//       commentInput.value = '';
-//     } else {
-//       // If there's an error with the request, display the error message
-//       alert('There was an error submitting your comment.');
-//     }
-//   };
-
-// })
-
-</script>
-
-
-<script>
-  <%# @manga.comments.each do |comment| %>
-    // $('#grand_form_<%#= comment.id %>').hide()
-    // $("#parent_form_<%#= comment.id %>").hide()
-  <%# end %>
-  // $("#rep_button_<%#= @manga.comments.id %>").click(function(){
-  //   if ($("#grand_form").is(":visible")) {
-  //     $('#grand_form').hide()
-  //   }
-  //   else {
-  //     $('#grand_form').show()
-  //   }
-  // })
-
-  // $("#rep_button2_<%#= @manga %>").click(function(){
-  //   if ($("#parent_form").is(":visible")) {
-  //     $("#parent_form").hide()
-  //   }
-  //   else{
-  //     $("#parent_form").show()
-  //   }
-  // })
-
-</script>

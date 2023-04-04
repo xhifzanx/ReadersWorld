@@ -4,17 +4,16 @@ class CommentChaptersController < ApplicationController
 	def new
 		@comment_chapter = @chapter.comment_chapter.new()
 	end
-	def create
-		
+	def create	
 		@comment_chapter = @chapter.comment_chapters.create(comment_chapter_param.merge(user: current_user))
 		respond_to do |format|
-		    if @comment_chapter.save
-		      format.js {}
-		      format.html { redirect_to manga_chapter_path(@chapter.manga, @chapter) }
-		    else
-		      format.html { render :new }
-		      format.js { render 'create_error' }
-		    end
+	    if @comment_chapter.save
+	      format.js {}
+	      format.html { redirect_to manga_chapter_path(@chapter.manga, @chapter) }
+	    else
+	      format.html { render :new }
+	      format.js { render 'create_error' }
+	    end
 		end
 	end
 	private

@@ -1,2 +1,7 @@
-<%byebug%>
-$('#comment_g_parent').append("<%=j render partial: 'mangas/g_parent_comment_list', locals: { comment: @comment}%>")
+<% if @comment.parent_id.nil? && @comment.sub_parent_id.nil? %>
+	$('#comment_g_parent').append("<%=j render partial: 'mangas/g_parent_comment_list', locals: { comment: @comment}%>");
+<% elsif @comment.parent_id.present? && @comment.sub_parent_id.nil? %>
+	$("#comment_parent_<%= @comment.parent_id %>").append("<%=j render partial: 'mangas/parent_comment_list', locals: { reply: @comment}%>");
+<% elsif @comment.parent_id.present? && @comment.sub_parent_id.present? %>
+	$("#comment_<%= @comment.sub_parent_id %>").append("<%=j render partial: 'mangas/comment_list', locals: { rreply: @comment}%>");
+<% end %>

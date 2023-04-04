@@ -8,22 +8,22 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 
 
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-    
-   
-  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <%= tag.meta name: 'direct-upload-url', content: rails_direct_uploads_path %>
-
   </head>
 
   <body>
+    <%= render partial: 'shared/nav_bar' %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>
+    <%= render partial: 'shared/footer' %>
   </body>
 </html>
+

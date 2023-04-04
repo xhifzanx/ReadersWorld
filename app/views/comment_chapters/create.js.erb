@@ -1,1 +1,7 @@
-<%byebug%>
+<% if @comment_chapter.parent_id.nil? && @comment_chapter.sub_parent_id.nil? %>
+	$('#chapter_comment_g_parent').append("<%=j render partial: 'chapters/g_parent_chapter_comment_list', locals: { comment: @comment_chapter}%>");
+<% elsif @comment_chapter.parent_id.present? && @comment_chapter.sub_parent_id.nil? %>
+	$("#chapter_comment_parent_<%= @comment_chapter.parent_id %>").append("<%=j render partial: 'chapters/parent_chapter_comment_list', locals: { reply: @comment_chapter}%>");
+<% elsif @comment_chapter.parent_id.present? && @comment_chapter.sub_parent_id.present? %>
+	$("#chapter_comment_<%= @comment_chapter.sub_parent_id %>").append("<%=j render partial: 'chapters/chapter_comment_list', locals: { rreply: @comment_chapter}%>");
+<% end %>
