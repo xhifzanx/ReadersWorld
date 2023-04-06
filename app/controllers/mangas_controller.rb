@@ -11,7 +11,7 @@ class MangasController < ApplicationController
 		redirect_to new_manga_chapter_path(@manga)
 	end
 	def show
-		@bookmark_status = is_present(@manga.users, current_user) ? 'Bookmark' : 'Unbookmark'
+		@bookmark_status = is_present(@manga.users, current_user) ? 'Bookmark' : 'Unbookmark' if current_user.present?
 		@comment = @manga.comments.build
 		
 	end
@@ -34,14 +34,7 @@ class MangasController < ApplicationController
 		redirect_to manga_path(@manga)
 	end
 
-	def is_present(mangas, user)
-		mangas.each do |manga|
-			if manga.email == user.email
-				return false
-			end
-		end
-		return true
-	end
+	
 
 	def categorized
 		@sorted = []
@@ -65,6 +58,14 @@ class MangasController < ApplicationController
 	end
 
 	private
+	def is_present(mangas, user)
+		mangas.each do |manga|
+			if manga.email == user.email
+				return false
+			end
+		end
+		return true
+	end
 
 	def manga_param
 		pp = params.require(:manga).permit(:title, :description, :author, :views, :bookmarked, :thumbnail, :likes, :category_id, categories:[])

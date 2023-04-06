@@ -1,0 +1,82 @@
+ <style>
+.hidden {
+  display: none;
+}
+</style>
+ <% @chapter.comment_chapters.where(parent_id:nil).each do |comment| %>
+  <% next unless comment.persisted? %>
+    <li>
+      <div class="d-flex mb-4 me">
+      <!-- Parent comment-->
+          <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+            <div class="fw-bold"> 
+                <div class="card" style="min-width: 40em;max-width: 40em;">
+                  <div class="card-body">
+                     <div class="ms-3">
+                      <%= comment.user.email %>
+                    </div>
+                    <%= raw comment.message %>
+                    <button class="badge badge-primary float-right" data-toggle="#grand_ch_form_<%= comment.id %>" onclick="toggleContent(event)">Reply</button>
+                      <br>
+                    <div id="grand_ch_form_<%= comment.id %>" class="hidden">
+                      <%= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter], remote: true do |ff|%>
+                        <%= ff.text_area :message, class:"form-control comment-input"%><br>
+                        <%= ff.hidden_field :parent_id, value: comment.id %>
+                        <%= ff.submit 'POST', class: 'btn btn-primary btn-sm float-right comment-btn' %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <!-- Child comment 1-->
+            <ul id="chapter_comment_parent_<%= comment.id %>">
+              <% @chapter.comment_chapters.where(parent_id:comment.id, sub_parent_id:nil).each do |reply| %>
+                  <% next unless reply.persisted? %>
+                    <li>
+                      <div class="d-flex mt-4">
+                          <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                          <div class="card" style="min-width: 36.7em;max-width: 36.7em;">
+                          <div class="card-body">
+                            <div class="ms-3">
+                            <div class="fw-bold"><%= reply.user.username %></div>
+                              <%= reply.message  %>
+                            <button class="badge badge-primary float-right" data-toggle="#ch_parent_form_<%= comment.id %>" onclick="toggleContent(event)">Reply</button>
+                              <br>
+                            <div id="ch_parent_form_<%= comment.id %>" class="hidden">
+                              <%= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter], remote: true do |fff|%>
+                                <%= fff.text_area :message, class:"form-control comment-input"%><br>
+                                <%= fff.hidden_field :parent_id, value: comment.id %>
+                                <%= fff.hidden_field :sub_parent_id, value: reply.id %>
+                                <%= fff.submit 'POST', class: 'btn btn-primary btn-sm float-right comment-btn' %>
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                    </li>
+                    <!-- Grandchild comment -->
+                  <ul id="chapter_comment_<%= reply.id %>">
+                    <% @chapter.comment_chapters.where(parent_id: comment.id, sub_parent_id: reply.id).each do |rreply| %>
+                      <% next unless rreply.persisted? %>
+                      <li>
+                        <div class="d-flex mt-4" style="margin-left: 7%">
+                          <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                          <div class="card" style="min-width: 33.8em;max-width: 33.8em;">
+                          <div class="card-body">
+                             <div class="ms-3">
+                              <div class="fw-bold"><%= rreply.user.username %></div>
+                              <%= rreply.message  %>
+                              <br>
+                             </div>
+                          </div>
+                          </div>
+                        </div>
+                      </li>
+                    <% end %>
+                  </ul>
+              <% end %>
+            </ul>
+          </div>
+      </div>
+  </li>
+<% end %>

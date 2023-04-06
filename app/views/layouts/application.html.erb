@@ -27,3 +27,17 @@
   </body>
 </html>
 
+<script>
+  function toggleContent(event) {
+  const target = event.target;
+  const selector = target.getAttribute('data-toggle');
+  const element = document.querySelector(selector);
+
+  if (element) {
+    element.classList.toggle('hidden');
+  }
+}
+$('.comment-btn').click(function(){
+  $('.comment-input').val('')
+})
+</script>

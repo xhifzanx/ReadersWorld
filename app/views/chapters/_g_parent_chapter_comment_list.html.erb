@@ -11,7 +11,15 @@
             <%= comment.user.email %>
 					</div>
           <%= raw comment.message %>
-          <button class="badge badge-primary float-right" id="rep_button">Reply</button><br>
+          <button class="badge badge-primary float-right" data-toggle="#grand_ch_form_<%= comment.id %>" onclick="toggleContent(event)">Reply</button>
+	          <br>
+	        <div id="grand_ch_form_<%= comment.id %>" class="hidden">
+	          <%= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter], remote: true do |ff|%>
+	            <%= ff.text_area :message, class:"form-control comment-input"%><br>
+	            <%= ff.hidden_field :parent_id, value: comment.id %>
+	            <%= ff.submit 'POST', class: 'btn btn-primary btn-sm float-right comment-btn' %>
+	          <% end %>
+	        </div>
         </div>
       </div>
     </div>

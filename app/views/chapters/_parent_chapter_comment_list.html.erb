@@ -6,7 +6,16 @@
       <div class="ms-3">
         <div class="fw-bold"><%= reply.user.username %></div>
         <%= reply.message  %>
-        <button class="badge badge-primary float-right" id="rep_button2">Reply</button>
+        <button class="badge badge-primary float-right" data-toggle="#ch_parent_form_<%= comment.id %>" onclick="toggleContent(event)">Reply</button>
+          <br>
+        <div id="ch_parent_form_<%= comment.id %>" class="hidden">
+          <%= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter], remote: true do |fff|%>
+            <%= fff.text_area :message, class:"form-control comment-input"%><br>
+            <%= fff.hidden_field :parent_id, value: @comment.id %>
+            <%= fff.hidden_field :sub_parent_id, value: reply.id %>
+            <%= fff.submit 'POST', class: 'btn btn-primary btn-sm float-right comment-btn' %>
+          <% end %>
+        </div>
         <br>
       </div>
     </div>

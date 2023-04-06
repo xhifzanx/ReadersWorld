@@ -42,87 +42,11 @@
                     <% if current_user.present? %>
                         <%= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter], remote: true do |f| %>
                         <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-                          <%= f.rich_text_area :message, class:"form-control", placeholder:"Join the discussion and leave a comment!"%><br>
-                          <%= f.submit 'POST', class: 'btn btn-primary btn-sm float-right' %><br>
+                          <%= f.rich_text_area :message, class:"form-control comment-input", placeholder:"Join the discussion and leave a comment!"%><br>
+                          <%= f.submit 'POST', class: 'btn btn-primary btn-sm float-right comment-btn' %><br>
                         <% end %>
                         <!-- Comment with nested comments-->
-                        <% @chapter.comment_chapters.where(parent_id:nil).each do |comment| %>
-                            <% next unless comment.persisted? %>
-                              <li>
-                                <div class="d-flex mb-4 me">
-                                <!-- Parent comment-->
-                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                      <div class="fw-bold"> 
-                                          <div class="card" style="min-width: 40em;max-width: 40em;">
-                                            <div class="card-body">
-                                               <div class="ms-3">
-                                                <%= comment.user.email %>
-                                              </div>
-                                              <%= raw comment.message %>
-                                                <button class="badge badge-primary float-right" id="rep_button">Reply</button>
-                                                <br>
-                                              <div id="grand_form">
-                                                <%= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter], remote: true do |ff|%>
-                                                  <%= ff.text_area :message, class:"form-control"%><br>
-                                                  <%= ff.hidden_field :parent_id, value: comment.id %>
-                                                  <%= ff.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
-                                                <% end %>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        <!-- Child comment 1-->
-                                      <ul id="chapter_comment_parent_<%= comment.id %>">
-                                        <% @chapter.comment_chapters.where(parent_id:comment.id, sub_parent_id:nil).each do |reply| %>
-                                            <% next unless reply.persisted? %>
-                                              <li>
-                                                <div class="d-flex mt-4">
-                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                                    <div class="card" style="min-width: 36.7em;max-width: 36.7em;">
-                                                    <div class="card-body">
-                                                       <div class="ms-3">
-                                                        <div class="fw-bold"><%= reply.user.username %></div>
-                                                        <%= reply.message  %>
-                                                        <button class="badge badge-primary float-right" id="rep_button2">Reply</button>
-                                                        <br>
-                                                      <div id="parent_form">
-                                                        <%= form_for [@comment_chapter.chapter.manga, @comment_chapter.chapter, @comment_chapter], remote: true do |fff|%>
-                                                          <%= fff.text_area :message, class:"form-control"%><br>
-                                                          <%= fff.hidden_field :parent_id, value: comment.id %>
-                                                          <%= fff.hidden_field :sub_parent_id, value: reply.id %>
-                                                          <%= fff.submit 'POST', class: 'btn btn-primary btn-sm float-right' %>
-                                                        <% end %>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                </div>
-                                              </li>
-                                              <!-- Grandchild comment -->
-                                            <ul id="chapter_comment_<%= reply.id %>">
-                                              <% @chapter.comment_chapters.where(parent_id: comment.id, sub_parent_id: reply.id).each do |rreply| %>
-                                                <% next unless rreply.persisted? %>
-                                                <li>
-                                                  <div class="d-flex mt-4" style="margin-left: 7%">
-                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                                    <div class="card" style="min-width: 33.8em;max-width: 33.8em;">
-                                                    <div class="card-body">
-                                                       <div class="ms-3">
-                                                        <div class="fw-bold"><%= rreply.user.username %></div>
-                                                        <%= rreply.message  %>
-                                                        <br>
-                                                       </div>
-                                                    </div>
-                                                    </div>
-                                                  </div>
-                                                </li>
-                                              <% end %>
-                                            </ul>
-                                        <% end %>
-                                      </ul>
-                                    </div>
-                                </div>
-                            </li>
-                        <% end %>
+                       <%= render partial: 'chapter_comment' %>
                         <!-- Single comment-->
                     <% else %>
                         <%= link_to 'Sign In to input or see comments', new_user_session_path, class:'btn btn-primary btn-block' %>
@@ -139,25 +63,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script>
-  // $('#grand_form').hide()
-  // $("#parent_form").hide()
-  // $("#rep_button").click(function(){
-  //   if ($("#grand_form").is(":visible")) {
-  //     $('#grand_form').hide()
-  //   }
-  //   else {
-  //     $('#grand_form').show()
-  //   }
-  // })
-
-  // $("#rep_button2").click(function(){
-  //   if ($("#parent_form").is(":visible")) {
-  //     $("#parent_form").hide()
-  //   }
-  //   else{
-  //     $("#parent_form").show()
-  //   }
-  // })
-
-</script>
