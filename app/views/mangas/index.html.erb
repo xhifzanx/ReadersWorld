@@ -63,6 +63,9 @@
   </section>
   <div class="album py-5 bg-light">
     <div class="container">
+    <% if can? :manage, @manga %>
+      <%= link_to 'Add New Manga', new_manga_path, class: 'btn btn-primary btn-lg float-right', style:'background-color: orange; color: #fff;' %>
+    <% end %>
       <div class="row">
     <% @mangas.each_slice(2) do |mangas| %>
       <% mangas.each do |manga| %>
@@ -105,4 +108,3 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
       <script>window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-0

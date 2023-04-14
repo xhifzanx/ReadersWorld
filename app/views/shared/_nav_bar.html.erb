@@ -1,7 +1,7 @@
 <% if params[:action] == 'show' %>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#!">Start Bootstrap</a>
+            <a class="navbar-brand" href="#!"><em><b>Reader's World</b></em></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -15,7 +15,7 @@
     </nav>
 <% else %>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand" href="#"><em><b>Reader's World</b></em></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -40,14 +40,21 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+           
+            <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "nav-link" %>
           </li>
         </ul>
-        <%= form_tag search_mangas_path, class: "form-inline my-2 my-lg-0", method: :get do %>
-          <%= text_field_tag :q, params[:q], placeholder: "Search", class: "form-control mr-sm-2" %>
+      <div class="search-container">
+        <%= form_tag search_mangas_path, class: "form-inline my-2 my-lg-0", id:'search-form',remote: true, method: :get do %>
+          <%= text_field_tag :q, params[:q], placeholder: "Search", class: "form-control mr-sm-2", id: 'q' %>
           <%= submit_tag "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
         <% end %>
+        <div class="search-filters" id="mangas">
+        </div>
+      </div>
+
       </div>
     </nav>
 <% end %>
+
 

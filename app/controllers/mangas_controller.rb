@@ -1,14 +1,21 @@
 class MangasController < ApplicationController
+	load_and_authorize_resource :manga, :class => "Manga"
 	before_action :set_manga, only: %i[show edit update destroy bookmark_action]
 	def index
 		@mangas = Manga.all
 	end
+
 	def new
 		@manga = Manga.new
 	end
 	def create
 		@manga = Manga.create(manga_param)
-		redirect_to new_manga_chapter_path(@manga)
+		if @manga.save
+			flash[:success] = 'Manga added successfully'
+			redirect_to new_manga_chapter_path(@manga)
+		else
+			render :new
+		end
 	end
 	def show
 		@bookmark_status = is_present(@manga.users, current_user) ? 'Bookmark' : 'Unbookmark' if current_user.present?
@@ -17,11 +24,18 @@ class MangasController < ApplicationController
 	end
 	def edit; end
 	def update
-		@manga.update(manga_param)
-		redirect_to mangas_path
+		if @manga.update(manga_param)
+			flash[:warning] = 'Manga Updated successfully'
+			redirect_to mangas_path
+		else
+			render :edit
+		end
 	end
 	def destroy
-		@manga.destroy
+		if @manga.destroy
+			flash[:danger] = 'Manga Deleted successfully'
+			redirect_to mangas_path
+		end
 	end
 
 	def bookmark_action
@@ -51,6 +65,14 @@ class MangasController < ApplicationController
 		else
 			redirect_to sorted_mangas_path(@sorted)
 		end
+	end
+
+	def filter
+		@filtered_mangas = Manga.where("title LIKE ?", "%#{params[:search]}%")
+		respond_to do |format|
+		    format.js
+		    format.html { redirect_to root_path }
+  	  end
 	end
 
 	def search

@@ -1,7 +1,7 @@
 class ChaptersController < ApplicationController
-	
 	before_action :set_manga
 	before_action :set_chapter, only: %i[show edit update destroy]
+	# load_and_authorize_resource
 	
 	def index
 		@chapters = @manga.chapters
@@ -44,7 +44,9 @@ class ChaptersController < ApplicationController
 	end
 
 	def destroy
-		@chapter.destroy
+		if @chapter.destroy
+			flash[:danger] = 'Chapter deleted'
+		end
 	end
 
 	private

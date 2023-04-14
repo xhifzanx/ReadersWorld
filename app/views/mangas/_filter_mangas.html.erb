@@ -1,0 +1,10 @@
+
+<% if @filtered_mangas.present? %>
+  <ul>
+    <% @filtered_mangas.each do |result| %>
+      <li><%= result.title %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No results found.</p>
+<% end %>

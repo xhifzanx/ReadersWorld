@@ -22,7 +22,7 @@ CREATE TABLE `action_text_rich_texts` (
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_action_text_rich_texts_uniqueness` (`record_type`,`record_id`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `active_storage_attachments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -38,7 +38,7 @@ CREATE TABLE `active_storage_attachments` (
   UNIQUE KEY `index_active_storage_attachments_uniqueness` (`record_type`,`record_id`,`name`,`blob_id`),
   KEY `index_active_storage_attachments_on_blob_id` (`blob_id`),
   CONSTRAINT `fk_rails_c3b3935057` FOREIGN KEY (`blob_id`) REFERENCES `active_storage_blobs` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `active_storage_blobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -55,7 +55,7 @@ CREATE TABLE `active_storage_blobs` (
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_active_storage_blobs_on_key` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `active_storage_variant_records`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -89,7 +89,7 @@ CREATE TABLE `categories` (
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `chapters`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -102,7 +102,7 @@ CREATE TABLE `chapters` (
   `is_seen` tinyint(1) DEFAULT NULL,
   `manga_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `comment_chapters`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -121,7 +121,7 @@ CREATE TABLE `comment_chapters` (
   KEY `index_comment_chapters_on_user_id` (`user_id`),
   CONSTRAINT `fk_rails_408d0b81d5` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `fk_rails_856ae659ff` FOREIGN KEY (`chapter_id`) REFERENCES `chapters` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -140,7 +140,7 @@ CREATE TABLE `comments` (
   KEY `index_comments_on_manga_id` (`manga_id`),
   CONSTRAINT `fk_rails_03de2dc08c` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `fk_rails_a0ca13c3ee` FOREIGN KEY (`manga_id`) REFERENCES `mangas` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `mangas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -162,7 +162,7 @@ CREATE TABLE `mangas` (
   `bookmarked` tinyint(1) DEFAULT NULL,
   `likes` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `mangas_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

@@ -24,6 +24,77 @@
   margin-bottom: 0;
   background-color: #fff;
 }
+
+
+.search-container {
+  position: relative;
+}
+
+.search-container form {
+  display: flex;
+  align-items: center;
+}
+
+.search-container input[type="text"] {
+  border: none;
+  background-color: #f1f1f1;
+  padding: 10px;
+  width: 500px;
+  margin-right: 10px;
+  font-size: 16px;
+  color: #333;
+  border-radius: 3px;
+}
+
+.search-container button[type="submit"] {
+  border: none;
+  background-color: #FF0000;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.search-container button[type="submit"]:hover {
+  background-color: #FF3333;
+}
+
+.search-container .btn-filter {
+  border: none;
+  background-color: transparent;
+  color: #333;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.search-filters {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 500px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  display: none;
+  padding: 10px;
+}
+
+/* Show filters when button is clicked */
+.search-container .btn-filter:focus + .search-filters,
+.search-container .btn-filter:hover + .search-filters {
+  display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 @media (min-width: 768px) {
   .jumbotron {
     padding-top: calc(var(--jumbotron-padding-y) * 2);

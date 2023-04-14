@@ -18,12 +18,13 @@
     <%= tag.meta name: 'direct-upload-url', content: rails_direct_uploads_path %>
   </head>
 
-  <body>
-    <%= render partial: 'shared/nav_bar' %>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
-    <%= render partial: 'shared/footer' %>
+  <body >
+    <div class="" id="content-wrapper">
+      <%= render partial: 'shared/nav_bar' %>
+      <%= render partial: 'shared/flash_message' %>
+      <%= yield %>
+      <%= render partial: 'shared/footer' %>
+    </div>
   </body>
 </html>
 
@@ -40,4 +41,42 @@
 $('.comment-btn').click(function(){
   $('.comment-input').val('')
 })
+</script>
+
+
+<script>
+  // Get the alert element
+  // Set a timer to close the alert after 5 seconds
+  setTimeout(function() {
+   $('.alert').hide()
+  }, 5000);
+</script>
+
+<script>
+//   $(document).ready(function() {
+//   $('#q').on('input', function() {
+//     $.get($('#search-form').attr('action'), $('#search-form').serialize(), null, 'script');
+//     return false;
+//   });
+// });
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('#q').on('keyup', function() {
+    var query = $("#q").val();
+    if (query.length >= 3) {
+    $.ajax({
+      url: "<%= filter_mangas_path %>",
+      type: 'GET',
+      data: { search: query },
+      dataType: 'script'
+    });
+    }
+    else {
+      $('#search-results-container').empty();
+    }
+  });
+});
+
 </script>
