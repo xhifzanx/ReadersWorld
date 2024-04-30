@@ -101,6 +101,7 @@ CREATE TABLE `chapters` (
   `updated_at` datetime(6) NOT NULL,
   `is_seen` tinyint(1) DEFAULT NULL,
   `manga_id` int DEFAULT NULL,
+  `seen` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -140,7 +141,7 @@ CREATE TABLE `comments` (
   KEY `index_comments_on_manga_id` (`manga_id`),
   CONSTRAINT `fk_rails_03de2dc08c` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `fk_rails_a0ca13c3ee` FOREIGN KEY (`manga_id`) REFERENCES `mangas` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `mangas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -271,6 +272,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20230321103053'),
 ('20230322110622'),
 ('20230323090633'),
-('20230323111443');
+('20230323111443'),
+('20230414091845');
 
 
