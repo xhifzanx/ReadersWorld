@@ -5,4 +5,5 @@ class Chapter < ApplicationRecord
   has_many_attached :images
   has_many :comment_chapters
   has_many :reply_chapters
+  serialize :seen, Array
 end

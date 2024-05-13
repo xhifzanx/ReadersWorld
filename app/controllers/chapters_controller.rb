@@ -1,11 +1,10 @@
 class ChaptersController < ApplicationController
 	before_action :set_manga
-	before_action :set_chapter, only: %i[show edit update destroy]
+	before_action :set_chapter, only: %i[show edit update destroy seen]
 	# load_and_authorize_resource
 	
 	def index
 		@chapters = @manga.chapters
-
 	end
 
 	def new
@@ -25,7 +24,7 @@ class ChaptersController < ApplicationController
 	end
 
 	def show
-		@chapter.update(is_seen: true)
+		seen?
 		@comment_chapter = @chapter.comment_chapters.build
 	end
 
@@ -49,15 +48,21 @@ class ChaptersController < ApplicationController
 		end
 	end
 
+	def seen?
+		return unless current_user.present?
+		return if @chapter.seen.include?(current_user.email)
+		@chapter.update(seen: @chapter.seen.push(current_user.email))
+	end
+
 	private
 
 	def chapter_param
-		params.require(:chapter).permit(:title, :manga_id)
+		params.require(:chapter).permit(:title, :manga_id, seen:[])
 	end
 
 	def set_manga
 		@manga = Manga.find(params[:manga_id])
-	end
+	end	
 
 	def set_chapter
 		@chapter = @manga.chapters.find(params[:id])

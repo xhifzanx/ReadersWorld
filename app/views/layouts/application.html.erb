@@ -15,6 +15,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyALiZKNcoV8au_eI0NpDfO1jXXaMkSEFx0",
+        authDomain: "reader-world.firebaseapp.com",
+        projectId: "reader-world",
+        storageBucket: "reader-world.appspot.com",
+        messagingSenderId: "635878799790",
+        appId: "1:635878799790:web:e54b0eaf4c6571c074b03f",
+        measurementId: "G-P2H7TCHKCV"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
     <%= tag.meta name: 'direct-upload-url', content: rails_direct_uploads_path %>
   </head>
 
@@ -74,7 +97,7 @@ $(document).ready(function() {
     });
     }
     else {
-      $('#search-results-container').empty();
+      $('#mangas').empty();
     }
   });
 });
