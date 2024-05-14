@@ -5,19 +5,17 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: mysql2
+  adapter: postgresql
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
-  host: <%= ENV['DB_HOST'] %>
-  database: <%= ENV['DB_NAME'] %>
-  username: <%= ENV['DB_USERNAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
+  
 
 development:
   <<: *default
-  database: <%= ENV['DB_NAME'] %>
+  database:  <%= ENV['PROD_DB_NAME'] %>
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
   # database: db/development.sqlite3
 
 # Warning: The database defined as "test" will be erased and
@@ -29,4 +27,7 @@ test:
 
 production:
   <<: *default
-  database:  <%= ENV['DB_NAME'] %>
+  database:  <%= ENV['PROD_DB_NAME'] %>
+  username: <%= ENV['PROD_DB_USERNAME'] %>
+  password: <%= ENV['PROD_DB_PASSWORD'] %>
+  host: <%= ENV['PROD_DB_HOST'] %>
