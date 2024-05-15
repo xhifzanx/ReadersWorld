@@ -1,0 +1,194 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ *= require bootstrap
+ */
+:root {
+  --jumbotron-padding-y: 3rem;
+}
+
+.jumbotron {
+  padding-top: var(--jumbotron-padding-y);
+  padding-bottom: var(--jumbotron-padding-y);
+  margin-bottom: 0;
+  background-color: #fff;
+}
+
+
+.search-container {
+  position: relative;
+}
+
+.search-container form {
+  display: flex;
+  align-items: center;
+}
+
+.search-container input[type="text"] {
+  border: none;
+  background-color: #f1f1f1;
+  padding: 10px;
+  width: 500px;
+  margin-right: 10px;
+  font-size: 16px;
+  color: #333;
+  border-radius: 3px;
+}
+
+.search-container button[type="submit"] {
+  border: none;
+  background-color: #FF0000;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.search-container button[type="submit"]:hover {
+  background-color: #FF3333;
+}
+
+.search-container .btn-filter {
+  border: none;
+  background-color: transparent;
+  color: #333;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.search-filters {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 500px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  display: none;
+  padding: 10px;
+}
+
+/* Show filters when button is clicked */
+.search-container .btn-filter:focus + .search-filters,
+.search-container .btn-filter:hover + .search-filters {
+  display: block;
+}
+
+
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+#q {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 12px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#mangas {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#mangas li a {
+  border: 1px solid #ddd;
+  margin-top: -1px; /* Prevent double borders */
+  background-color: #f6f6f6;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+  display: block
+}
+
+#mangas li a:hover:not(.header) {
+  background-color: #eee;
+}
+
+
+
+
+
+
+
+
+
+
+@media (min-width: 768px) {
+  .jumbotron {
+    padding-top: calc(var(--jumbotron-padding-y) * 2);
+    padding-bottom: calc(var(--jumbotron-padding-y) * 2);
+  }
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron-heading {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  max-width: 40rem;
+}
+
+footer {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+footer p {
+  margin-bottom: .25rem;
+}
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+
+
+.form-card{
+  padding-top: 10%;
+  padding-left: 38.5%;
+  padding-bottom: 10%;
+  background-color: #4d4b4b;
+}
+
+
+.chapter-index-color {
+  background-color: #e6eef0;
+}
+
+.chapter-index-color:hover {
+  background-color: #d1ecf1
+}
+
+
+
+
+
+
+
+
+
+
+
+
