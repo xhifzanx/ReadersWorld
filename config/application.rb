@@ -12,6 +12,7 @@ module ReaderWorld
     config.load_defaults 6.1
     config.active_storage.service
     config.active_record.schema_format = :sql
+    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
     # config.action_text.allowed_tags = %w(h1 h2 h3 p div a ul ol li span)
     # Configuration for the application, engines, and railties goes here.
     #
